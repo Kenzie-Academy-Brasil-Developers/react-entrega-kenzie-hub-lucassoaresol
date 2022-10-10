@@ -1,14 +1,15 @@
-import React from 'react'
-import Routes from './Routes'
-import Global from './styles/global'
+import React, { useState } from 'react';
+import Routes from './Routes';
+import Global from './styles/global';
 
 const App = () => {
+  const [user, setUser] = useState(null);
   return (
     <>
       <Global />
-      <Routes />
+      <Routes user={user} setUser={setUser} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

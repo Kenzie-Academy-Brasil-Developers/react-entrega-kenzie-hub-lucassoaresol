@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { api } from '../../services/api';
 import { StyledRegister, StyledSection } from './style';
 import logo from '../../assets/logo.svg';
 import { toast } from 'react-toastify';
+import InputPassword from '../../components/InputPassword';
+import Loading from '../../components/Loading';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -35,8 +36,8 @@ const schema = yup.object({
 });
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [isView, setIsView] = useState(false);
   const {
     register,
     handleSubmit,
@@ -46,6 +47,7 @@ const Register = () => {
   });
   const postApi = async (data) => {
     try {
+      setLoading(true);
       await api.post('users', data);
       toast.success('Conta criada com sucesso!', {
         autoClose: 3000,
@@ -55,6 +57,8 @@ const Register = () => {
       toast.error('O e-mail já existe', {
         autoClose: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -94,50 +98,7 @@ const Register = () => {
                 <IoMdInformationCircle />
               </p>
             )}
-            <label htmlFor='password'>Senha</label>
-            {isView ? (
-              <>
-                <div className='password'>
-                  <input
-                    id='password'
-                    type='text'
-                    placeholder='Digite aqui sua senha'
-                    {...register('password')}
-                  />
-                  <span onClick={() => setIsView(false)}>
-                    <FaEyeSlash />
-                  </span>
-                </div>
-                <label htmlFor='confirmPassword'>Confirmar Senha</label>
-                <input
-                  id='confirmPassword'
-                  type='text'
-                  placeholder='Digite aqui sua senha'
-                  {...register('confirmPassword')}
-                />
-              </>
-            ) : (
-              <>
-                <div className='password'>
-                  <input
-                    id='password'
-                    type='password'
-                    placeholder='Digite aqui sua senha'
-                    {...register('password')}
-                  />
-                  <span onClick={() => setIsView(true)}>
-                    <FaEye />
-                  </span>
-                </div>
-                <label htmlFor='confirmPassword'>Confirmar Senha</label>
-                <input
-                  id='confirmPassword'
-                  type='password'
-                  placeholder='Digite aqui sua senha'
-                  {...register('confirmPassword')}
-                />
-              </>
-            )}
+            <InputPassword register={register} isConfirm={true} />
             {errors.password && (
               <p>
                 {errors.password.message}
@@ -186,6 +147,7 @@ const Register = () => {
           </form>
         </StyledSection>
       </div>
+      {loading && <Loading />}
     </StyledRegister>
   );
 };

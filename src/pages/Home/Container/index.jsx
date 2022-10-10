@@ -3,27 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/logo.svg';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
 import { api } from '../../../services/api';
-import Loading from './Loading';
+import Loading from '../../../components/Loading';
 
-const Container = () => {
-  const id = localStorage.getItem('@IdKenzieHub');
+const Container = ({ user, setUser }) => {
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    const getUser = async () => {
+    const getProfile = async () => {
       try {
-        setLoading(true)
-        const response = await api.get(`/users/${id}`);
+        setLoading(true);
+        const token = localStorage.getItem('@TokenKenzieHub');
+        const response = await api.get('profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUser(response.data);
       } catch (error) {
-        console.log(error)
-      }
-      finally{
-        setLoading(false)
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    getUser();
+    if (!user) {
+      getProfile();
+    }
   }, []);
   return (
     <StyledContainerMain>
@@ -40,8 +44,28 @@ const Container = () => {
           </button>
         </StyledContainer>
       </header>
-      {loading?<h1>Carregando...</h1>:<Loading user={user}/>}
-      
+      <>
+        {user && (
+          <>
+            <StyledUser>
+              <StyledContainer position='user'>
+                <h1>Olá, {user.name}</h1>
+                <h2>{user.course_module}</h2>
+              </StyledContainer>
+            </StyledUser>
+            <main>
+              <StyledContainer>
+                <h3>Que pena! Estamos em desenvolvimento :(</h3>
+                <h4>
+                  Nossa aplicação está em desenvolvimento, em breve teremos
+                  novidades
+                </h4>
+              </StyledContainer>
+            </main>
+          </>
+        )}
+      </>
+      {loading && <Loading />}
     </StyledContainerMain>
   );
 };

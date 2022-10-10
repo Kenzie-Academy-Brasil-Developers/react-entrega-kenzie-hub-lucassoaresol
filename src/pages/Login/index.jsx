@@ -4,11 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { StyledLogin, StyledSection } from './style';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdInformationCircle } from 'react-icons/io';
 import { api } from '../../services/api';
 import logo from '../../assets/logo.svg';
 import { toast } from 'react-toastify';
+import InputPassword from '../../components/InputPassword';
+import Loading from '../../components/Loading';
 
 const schema = yup.object({
   email: yup
@@ -18,8 +19,8 @@ const schema = yup.object({
   password: yup.string().required('Senha é obrigatório'),
 });
 
-const Login = () => {
-  const [isView, setIsView] = useState(false);
+const Login = ({ setUser }) => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -30,17 +31,20 @@ const Login = () => {
   });
   const loginApi = async (data) => {
     try {
+      setLoading(true);
       const response = await api.post('sessions', data);
       localStorage.setItem('@TokenKenzieHub', response.data.token);
-      localStorage.setItem('@IdKenzieHub', response.data.user.id);
-      toast.success('Login feito com sucesso!',{
+      setUser(response.data.user);
+      toast.success('Login feito com sucesso!', {
         autoClose: 900,
-      })
+      });
       navigate('/');
     } catch (error) {
       toast.error('Combinação incorreta de e-mail/senha', {
         autoClose: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -62,32 +66,7 @@ const Login = () => {
               <IoMdInformationCircle />
             </p>
           )}
-          <label htmlFor='password'>Senha</label>
-          {isView ? (
-            <div className='password'>
-              <input
-                id='password'
-                type='text'
-                placeholder='Digite aqui sua senha'
-                {...register('password')}
-              />
-              <span onClick={() => setIsView(false)}>
-                <FaEyeSlash />
-              </span>
-            </div>
-          ) : (
-            <div className='password'>
-              <input
-                id='password'
-                type='password'
-                placeholder='Digite aqui sua senha'
-                {...register('password')}
-              />
-              <span onClick={() => setIsView(true)}>
-                <FaEye />
-              </span>
-            </div>
-          )}
+          <InputPassword register={register} />
           {errors.password && (
             <p>
               {errors.password.message}
@@ -101,6 +80,7 @@ const Login = () => {
           <div>Cadastre-se</div>
         </Link>
       </StyledSection>
+      {loading && <Loading />}
     </StyledLogin>
   );
 };
