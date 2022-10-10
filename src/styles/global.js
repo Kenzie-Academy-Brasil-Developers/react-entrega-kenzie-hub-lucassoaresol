@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
     *{
@@ -19,5 +19,21 @@ export default createGlobalStyle`
     body{
         background-color: var(--Color-grey-4);
         color: var(--Color-grey-0);
+        font-family: 'Inter', sans-serif;
     }
-`
+    a{
+        text-decoration: none;
+    }
+    input,select{
+        background: transparent;
+        border: transparent;
+    }
+    button{
+        background: transparent;
+        border: transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+`;
