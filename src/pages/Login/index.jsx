@@ -5,8 +5,10 @@ import * as yup from 'yup';
 import { StyledLogin, StyledSection } from './style';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { IoMdInformationCircle } from 'react-icons/io';
 import { api } from '../../services/api';
 import logo from '../../assets/logo.svg';
+import { toast } from 'react-toastify';
 
 const schema = yup.object({
   email: yup
@@ -26,17 +28,27 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const postApi = async (data) => {
-    const response = await api.post('sessions', data);
-    localStorage.setItem('@TokenKenzieHub', response.data.token);
-    navigate('/');
+  const loginApi = async (data) => {
+    try {
+      const response = await api.post('sessions', data);
+      localStorage.setItem('@TokenKenzieHub', response.data.token);
+      localStorage.setItem('@IdKenzieHub', response.data.user.id);
+      toast.success('Login feito com sucesso!',{
+        autoClose: 900,
+      })
+      navigate('/');
+    } catch (error) {
+      toast.error('Combinação incorreta de e-mail/senha', {
+        autoClose: 3000,
+      });
+    }
   };
   return (
     <StyledLogin>
-      <img src={logo} alt="Kenzie Hub" />
+      <img src={logo} alt='Kenzie Hub' />
       <StyledSection>
         <h2>Login</h2>
-        <form onSubmit={handleSubmit(postApi)}>
+        <form onSubmit={handleSubmit(loginApi)}>
           <label htmlFor='email'>Email</label>
           <input
             id='email'
@@ -44,7 +56,12 @@ const Login = () => {
             placeholder='Digite aqui seu email'
             {...register('email')}
           />
-          <p>{errors.email?.message}</p>
+          {errors.email && (
+            <p>
+              {errors.email.message}
+              <IoMdInformationCircle />
+            </p>
+          )}
           <label htmlFor='password'>Senha</label>
           {isView ? (
             <div className='password'>
@@ -71,7 +88,12 @@ const Login = () => {
               </span>
             </div>
           )}
-          <p>{errors.password?.message}</p>
+          {errors.password && (
+            <p>
+              {errors.password.message}
+              <IoMdInformationCircle />
+            </p>
+          )}
           <button type='submit'>Entrar</button>
         </form>
         <Link to='../register'>

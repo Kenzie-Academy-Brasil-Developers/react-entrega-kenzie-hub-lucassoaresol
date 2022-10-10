@@ -1,18 +1,23 @@
 import styled from 'styled-components';
 
 export const StyledRegister = styled.div`
-  width: 100vw;
-  height: 100vh;
-
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 20px;
+
+  .container {
+    width: 90%;
+    max-width: 369px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0;
+  }
 
   header {
-    width: 90%;
-
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,26 +52,34 @@ export const StyledRegister = styled.div`
         height: 40.11px;
 
         font-size: 12px;
+
+        transition: 0.3s;
+
+        &:hover {
+          background-color: var(--Color-grey-2);
+
+          transition: 0.3s;
+        }
       }
     }
   }
 `;
 
 export const StyledSection = styled.section`
-  width: 90%;
-  max-width: 369px;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 30px 0;
+  padding: 20px 0;
 
   background-color: var(--Color-grey-3);
   box-shadow: 0px 3.20867px 32.0867px -8.02168px rgba(0, 0, 0, 0.25);
   border-radius: 3.20867px;
 
   h2 {
+    margin-top: 10px;
     font-weight: 700;
     font-size: 14.39px;
   }
@@ -78,7 +91,7 @@ export const StyledSection = styled.section`
 
   h3 {
     font-weight: 400;
-    font-size: 9.59437px;
+    font-size: 9.59px;
     color: var(--Color-grey-1);
   }
   @media (min-width: 768px) {
@@ -93,6 +106,14 @@ export const StyledSection = styled.section`
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    p {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 10px;
+      color: var(--Color-primary);
+    }
   }
 
   label {
@@ -105,19 +126,24 @@ export const StyledSection = styled.section`
     }
   }
 
-  input {
+  input,
+  select {
     width: 100%;
-    height: 38.5px;
+    height: 38.38px;
 
     padding-left: 16px;
 
     background-color: var(--Color-grey-2);
-    border: 1.2182px solid var(--Color-grey-0);
-    border-radius: 4px;
+    border: 0.973988px solid var(--Color-grey-2);
+    border-radius: 3.19812px;
 
     font-weight: 400;
-    font-size: 13.0293px;
+    font-size: 12.99px;
     color: var(--Color-grey-0);
+
+    &::placeholder {
+      color: var(--Color-grey-1);
+    }
   }
   @media (min-width: 768px) {
     input {
@@ -128,14 +154,16 @@ export const StyledSection = styled.section`
   }
 
   button {
-    height: 38.5px;
+    height: 38.38px;
 
-    background-color: var(--Color-primary);
-    border: 1.2182px solid var(--Color-primary);
+    margin-top: 10px;
+
+    background-color: var(--Color-primary-Negative);
+    border: 1.2182px solid var(--Color-primary-Negative);
     border-radius: 4.06066px;
 
     font-weight: 500;
-    font-size: 12.8347px;
+    font-size: 12.79px;
     color: var(--Color-grey-0);
   }
   @media (min-width: 768px) {
@@ -143,6 +171,15 @@ export const StyledSection = styled.section`
       height: 48px;
 
       font-size: 16px;
+
+      transition: 0.3s;
+
+      &:hover {
+        background-color: var(--Color-primary);
+        border-color: var(--Color-primary);
+
+        transition: 0.3s;
+      }
     }
   }
 

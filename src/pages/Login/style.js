@@ -36,7 +36,7 @@ export const StyledSection = styled.section`
 
   h2 {
     font-weight: 700;
-    font-size: 14.439px;
+    font-size: 14.44px;
   }
   @media (min-width: 768px) {
     h2 {
@@ -50,15 +50,23 @@ export const StyledSection = styled.section`
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    p{
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 10px;
+      color: var(--Color-primary);
+    }
   }
 
   label {
     font-weight: 400;
-    font-size: 9.772px;
+    font-size: 9.77px;
   }
   @media (min-width: 768px) {
     label {
-      font-size: 12.182px;
+      font-size: 12.18px;
     }
   }
 
@@ -73,26 +81,31 @@ export const StyledSection = styled.section`
     border-radius: 4px;
 
     font-weight: 400;
-    font-size: 13.0293px;
+    font-size: 13.03px;
     color: var(--Color-grey-0);
+
+    &::placeholder{
+      color: var(--Color-grey-1);
+    }
   }
   @media (min-width: 768px) {
     input {
       height: 48px;
 
-      font-size: 16.2426px;
+      font-size: 16.24px;
     }
   }
 
   button {
     height: 38.5px;
+    margin-top: 10px;
 
     background-color: var(--Color-primary);
     border: 1.2182px solid var(--Color-primary);
     border-radius: 4.06066px;
 
     font-weight: 500;
-    font-size: 12.8347px;
+    font-size: 12.83px;
     color: var(--Color-grey-0);
   }
   @media (min-width: 768px) {
@@ -100,6 +113,14 @@ export const StyledSection = styled.section`
       height: 48px;
 
       font-size: 16px;
+
+      transition: 0.3s;
+
+      &:hover{
+        background-color: var(--Color-primary-Focus);
+        border-color: var(--Color-primary-Focus);
+        transition: 0.3s;
+      }
     }
   }
 
@@ -137,12 +158,20 @@ export const StyledSection = styled.section`
     @media (min-width: 768px) {
       p {
         font-size: 12px;
+
+        transition: 0.3s;
+
+        &:hover{
+          color: var(--Color-grey-0);
+
+          transition: 0.3s;
+        }
       }
     }
 
     div {
       width: 100%;
-      height: 48px;
+      height: 38.5px;
 
       display: inline-flex;
       align-items: center;
@@ -158,7 +187,18 @@ export const StyledSection = styled.section`
     }
     @media (min-width: 768px) {
       div {
+        height: 48px;
+
         font-size: 16px;
+
+        transition: 0.3s;
+
+        &:hover{
+          background-color: var(--Color-grey-2);
+          border-color: var(--Color-grey-2);
+          
+          transition: 0.3s;
+        }
       }
     }
   }
