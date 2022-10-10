@@ -18,7 +18,11 @@ const schema = yup.object({
     .required('Email é obrigatório'),
   password: yup
     .string()
-    .matches(/.{6,}/, 'Deve ter no mínimo 6 digitos')
+    .matches(/[A-Z]/, 'Deve conter ao menos 1 letra maiúscula')
+    .matches(/[a-z]/, 'Deve conter ao menos 1 letra minuscula')
+    .matches(/(\d)/, 'Deve conter ao menos um número')
+    .matches(/(\W)|_/, 'Deve conter um caracter especial')
+    .matches(/.{8,}/, 'Deve ter no minimo 8 digitos')
     .required('Senha é obrigatório'),
   confirmPassword: yup
     .string()
@@ -43,9 +47,9 @@ const Register = () => {
   const postApi = async (data) => {
     try {
       await api.post('users', data);
-      toast.success('Conta criada com sucesso!',{
+      toast.success('Conta criada com sucesso!', {
         autoClose: 3000,
-      })
+      });
       navigate('/login');
     } catch (error) {
       toast.error('O e-mail já existe', {
