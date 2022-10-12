@@ -10,12 +10,10 @@ import logo from '../../assets/logo.svg';
 import { toast } from 'react-toastify';
 import InputPassword from '../../components/InputPassword';
 import Loading from '../../components/Loading';
+import { StyledButton } from '../../styles/button';
 
 const schema = yup.object({
-  email: yup
-    .string()
-    .email('Deve ser um e-mail válido')
-    .required('Email é obrigatório'),
+  email: yup.string().required('Email é obrigatório'),
   password: yup.string().required('Senha é obrigatório'),
 });
 
@@ -73,7 +71,7 @@ const Login = ({ setUser }) => {
               <IoMdInformationCircle />
             </p>
           )}
-          <button type='submit'>Entrar</button>
+          <StyledButton type='submit'>Entrar</StyledButton>
         </form>
         <Link to='../register'>
           <p>Ainda não possui uma conta?</p>

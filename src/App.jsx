@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import AuthProvider from './contexts/AuthContext';
 import Routes from './Routes';
 import Global from './styles/global';
 
 const App = () => {
-  const [user, setUser] = useState(null);
   return (
     <>
       <Global />
-      <Routes user={user} setUser={setUser} />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </>
   );
 };

@@ -29,11 +29,13 @@ export default createGlobalStyle`
         border: transparent;
     }
     button{
-        background: transparent;
-        border: transparent;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+
+        background: transparent;
+        border: transparent;
+        
         cursor: pointer;
     }
 `;

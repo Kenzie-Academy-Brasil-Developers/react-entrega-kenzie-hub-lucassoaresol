@@ -4,6 +4,7 @@ import logo from '../../../assets/logo.svg';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
 import { api } from '../../../services/api';
 import Loading from '../../../components/Loading';
+import { StyledButton } from '../../../styles/button';
 
 const Container = ({ user, setUser }) => {
   const [loading, setLoading] = useState(false);
@@ -34,14 +35,15 @@ const Container = ({ user, setUser }) => {
       <header>
         <StyledContainer position='header'>
           <img src={logo} alt='Kenzie Hub' />
-          <button
+          <StyledButton
+            location='home'
             onClick={() => {
               localStorage.removeItem('@TokenKenzieHub');
               navigate('/login');
             }}
           >
             Sair
-          </button>
+          </StyledButton>
         </StyledContainer>
       </header>
       <>

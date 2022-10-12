@@ -10,6 +10,7 @@ import logo from '../../assets/logo.svg';
 import { toast } from 'react-toastify';
 import InputPassword from '../../components/InputPassword';
 import Loading from '../../components/Loading';
+import { StyledButton } from '../../styles/button';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -143,7 +144,7 @@ const Register = () => {
               <option value='Segundo Módulo'>Segundo Módulo</option>
               <option value='Terceiro Módulo'>Terceiro Módulo</option>
             </select>
-            <button type='submit'>Cadastrar</button>
+            <StyledButton location='register' type='submit'>Cadastrar</StyledButton>
           </form>
         </StyledSection>
       </div>
