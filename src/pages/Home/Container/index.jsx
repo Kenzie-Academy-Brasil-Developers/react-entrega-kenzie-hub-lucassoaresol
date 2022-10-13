@@ -1,47 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 import logo from '../../../assets/logo.svg';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
-import { api } from '../../../services/api';
 import Loading from '../../../components/Loading';
+import { StartContext } from '../../../contexts/StartContext';
+import { StyledButton } from '../../../styles/button';
 
-const Container = ({ user, setUser }) => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const getProfile = async () => {
-      try {
-        setLoading(true);
-        const token = localStorage.getItem('@TokenKenzieHub');
-        const response = await api.get('profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (!user) {
-      getProfile();
-    }
-  }, []);
+const Container = () => {
+  const { loading, user, navigate } = useContext(StartContext);
   return (
     <StyledContainerMain>
       <header>
         <StyledContainer position='header'>
           <img src={logo} alt='Kenzie Hub' />
-          <button
+          <StyledButton
+            location='home'
             onClick={() => {
               localStorage.removeItem('@TokenKenzieHub');
               navigate('/login');
             }}
           >
             Sair
-          </button>
+          </StyledButton>
         </StyledContainer>
       </header>
       <>

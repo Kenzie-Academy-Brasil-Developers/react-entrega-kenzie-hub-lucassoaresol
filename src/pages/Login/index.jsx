@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { StyledLogin, StyledSection } from './style';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IoMdInformationCircle } from 'react-icons/io';
-import { api } from '../../services/api';
 import logo from '../../assets/logo.svg';
-import { toast } from 'react-toastify';
 import InputPassword from '../../components/InputPassword';
 import Loading from '../../components/Loading';
+import { StyledButton } from '../../styles/button';
+import { StartContext } from '../../contexts/StartContext';
 
 const schema = yup.object({
-  email: yup
-    .string()
-    .email('Deve ser um e-mail válido')
-    .required('Email é obrigatório'),
+  email: yup.string().required('Email é obrigatório'),
   password: yup.string().required('Senha é obrigatório'),
 });
 
-const Login = ({ setUser }) => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+const Login = () => {
+  const { loading, login } = useContext(StartContext);
   const {
     register,
     handleSubmit,
@@ -29,30 +25,12 @@ const Login = ({ setUser }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const loginApi = async (data) => {
-    try {
-      setLoading(true);
-      const response = await api.post('sessions', data);
-      localStorage.setItem('@TokenKenzieHub', response.data.token);
-      setUser(response.data.user);
-      toast.success('Login feito com sucesso!', {
-        autoClose: 900,
-      });
-      navigate('/');
-    } catch (error) {
-      toast.error('Combinação incorreta de e-mail/senha', {
-        autoClose: 3000,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <StyledLogin>
       <img src={logo} alt='Kenzie Hub' />
       <StyledSection>
         <h2>Login</h2>
-        <form onSubmit={handleSubmit(loginApi)}>
+        <form onSubmit={handleSubmit(login)}>
           <label htmlFor='email'>Email</label>
           <input
             id='email'
@@ -73,7 +51,7 @@ const Login = ({ setUser }) => {
               <IoMdInformationCircle />
             </p>
           )}
-          <button type='submit'>Entrar</button>
+          <StyledButton type='submit'>Entrar</StyledButton>
         </form>
         <Link to='../register'>
           <p>Ainda não possui uma conta?</p>

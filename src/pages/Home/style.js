@@ -20,34 +20,6 @@ export const StyledContainerMain = styled.div`
       height: 14.63px;
     }
 
-    button {
-      height: 32px;
-
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 16px;
-
-      background-color: var(--Color-grey-3);
-      border-radius: 4px;
-
-      font-weight: 600;
-      font-size: 12px;
-      color: var(--Color-grey-0);
-    }
-
-    @media (min-width: 768px) {
-      button {
-        transition: 0.3s;
-
-        &:hover {
-          background-color: var(--Color-grey-2);
-          border-color: var(--Color-grey-2);
-
-          transition: 0.3s;
-        }
-      }
-    }
   }
 
   main {
