@@ -48,8 +48,10 @@ const Register = () => {
     <StyledRegister>
       <div className='container'>
         <header>
-          <img src={logo} alt='Kenzie Hub' />
-          <Link to='../login'>Voltar</Link>
+          <Link to='/login'>
+            <img src={logo} alt='Kenzie Hub' />
+          </Link>
+          <Link className='button' to='../login'>Voltar</Link>
         </header>
         <StyledSection>
           <h2>Crie sua conta</h2>
