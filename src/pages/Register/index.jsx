@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IoMdInformationCircle } from 'react-icons/io';
-import { api } from '../../services/api';
 import { StyledRegister, StyledSection } from './style';
 import logo from '../../assets/logo.svg';
-import { toast } from 'react-toastify';
 import InputPassword from '../../components/InputPassword';
 import Loading from '../../components/Loading';
 import { StyledButton } from '../../styles/button';
+import { StartContext } from '../../contexts/StartContext';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -37,8 +36,7 @@ const schema = yup.object({
 });
 
 const Register = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const { loading, createUser } = useContext(StartContext);
   const {
     register,
     handleSubmit,
@@ -46,22 +44,6 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const postApi = async (data) => {
-    try {
-      setLoading(true);
-      await api.post('users', data);
-      toast.success('Conta criada com sucesso!', {
-        autoClose: 3000,
-      });
-      navigate('/login');
-    } catch (error) {
-      toast.error('O e-mail já existe', {
-        autoClose: 3000,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <StyledRegister>
       <div className='container'>
@@ -72,7 +54,7 @@ const Register = () => {
         <StyledSection>
           <h2>Crie sua conta</h2>
           <h3>Rapido e grátis, vamos nessa</h3>
-          <form onSubmit={handleSubmit(postApi)}>
+          <form onSubmit={handleSubmit(createUser)}>
             <label htmlFor='name'>Nome</label>
             <input
               id='name'
@@ -144,7 +126,9 @@ const Register = () => {
               <option value='Segundo Módulo'>Segundo Módulo</option>
               <option value='Terceiro Módulo'>Terceiro Módulo</option>
             </select>
-            <StyledButton location='register' type='submit'>Cadastrar</StyledButton>
+            <StyledButton location='register' type='submit'>
+              Cadastrar
+            </StyledButton>
           </form>
         </StyledSection>
       </div>

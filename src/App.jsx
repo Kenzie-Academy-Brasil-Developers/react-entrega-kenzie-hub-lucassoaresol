@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import AuthProvider from './contexts/AuthContext';
+import React from 'react';
+import StartProvider from './contexts/StartContext';
 import Routes from './Routes';
 import Global from './styles/global';
 
@@ -7,9 +7,9 @@ const App = () => {
   return (
     <>
       <Global />
-      <AuthProvider>
+      <StartProvider>
         <Routes />
-      </AuthProvider>
+      </StartProvider>
     </>
   );
 };
