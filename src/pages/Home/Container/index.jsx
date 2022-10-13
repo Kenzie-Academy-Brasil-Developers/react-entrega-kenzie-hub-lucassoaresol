@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 import logo from '../../../assets/logo.svg';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
-import { api } from '../../../services/api';
-import Loading from './Loading';
+import Loading from '../../../components/Loading';
+import { StartContext } from '../../../contexts/StartContext';
+import { StyledButton } from '../../../styles/button';
 
 const Container = () => {
-  const id = localStorage.getItem('@IdKenzieHub');
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        setLoading(true)
-        const response = await api.get(`/users/${id}`);
-        setUser(response.data);
-      } catch (error) {
-        console.log(error)
-      }
-      finally{
-        setLoading(false)
-      }
-    };
-    getUser();
-  }, []);
+  const { loading, user, navigate } = useContext(StartContext);
   return (
     <StyledContainerMain>
       <header>
         <StyledContainer position='header'>
           <img src={logo} alt='Kenzie Hub' />
-          <button
+          <StyledButton
+            location='home'
             onClick={() => {
               localStorage.removeItem('@TokenKenzieHub');
               navigate('/login');
             }}
           >
             Sair
-          </button>
+          </StyledButton>
         </StyledContainer>
       </header>
-      {loading?<h1>Carregando...</h1>:<Loading user={user}/>}
-      
+      <>
+        {user && (
+          <>
+            <StyledUser>
+              <StyledContainer position='user'>
+                <h1>Olá, {user.name}</h1>
+                <h2>{user.course_module}</h2>
+              </StyledContainer>
+            </StyledUser>
+            <main>
+              <StyledContainer>
+                <h3>Que pena! Estamos em desenvolvimento :(</h3>
+                <h4>
+                  Nossa aplicação está em desenvolvimento, em breve teremos
+                  novidades
+                </h4>
+              </StyledContainer>
+            </main>
+          </>
+        )}
+      </>
+      {loading && <Loading />}
     </StyledContainerMain>
   );
 };

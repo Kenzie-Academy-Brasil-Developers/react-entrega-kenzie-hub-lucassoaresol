@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { IoMdInformationCircle } from 'react-icons/io';
-import { api } from '../../services/api';
 import { StyledRegister, StyledSection } from './style';
 import logo from '../../assets/logo.svg';
-import { toast } from 'react-toastify';
+import InputPassword from '../../components/InputPassword';
+import Loading from '../../components/Loading';
+import { StyledButton } from '../../styles/button';
+import { StartContext } from '../../contexts/StartContext';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -18,7 +19,11 @@ const schema = yup.object({
     .required('Email é obrigatório'),
   password: yup
     .string()
-    .matches(/.{6,}/, 'Deve ter no mínimo 6 digitos')
+    .matches(/[A-Z]/, 'Deve conter ao menos 1 letra maiúscula')
+    .matches(/[a-z]/, 'Deve conter ao menos 1 letra minuscula')
+    .matches(/(\d)/, 'Deve conter ao menos um número')
+    .matches(/(\W)|_/, 'Deve conter um caracter especial')
+    .matches(/.{8,}/, 'Deve ter no minimo 8 digitos')
     .required('Senha é obrigatório'),
   confirmPassword: yup
     .string()
@@ -31,8 +36,7 @@ const schema = yup.object({
 });
 
 const Register = () => {
-  const navigate = useNavigate();
-  const [isView, setIsView] = useState(false);
+  const { loading, createUser } = useContext(StartContext);
   const {
     register,
     handleSubmit,
@@ -40,19 +44,6 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const postApi = async (data) => {
-    try {
-      await api.post('users', data);
-      toast.success('Conta criada com sucesso!',{
-        autoClose: 3000,
-      })
-      navigate('/login');
-    } catch (error) {
-      toast.error('O e-mail já existe', {
-        autoClose: 3000,
-      });
-    }
-  };
   return (
     <StyledRegister>
       <div className='container'>
@@ -63,7 +54,7 @@ const Register = () => {
         <StyledSection>
           <h2>Crie sua conta</h2>
           <h3>Rapido e grátis, vamos nessa</h3>
-          <form onSubmit={handleSubmit(postApi)}>
+          <form onSubmit={handleSubmit(createUser)}>
             <label htmlFor='name'>Nome</label>
             <input
               id='name'
@@ -90,50 +81,7 @@ const Register = () => {
                 <IoMdInformationCircle />
               </p>
             )}
-            <label htmlFor='password'>Senha</label>
-            {isView ? (
-              <>
-                <div className='password'>
-                  <input
-                    id='password'
-                    type='text'
-                    placeholder='Digite aqui sua senha'
-                    {...register('password')}
-                  />
-                  <span onClick={() => setIsView(false)}>
-                    <FaEyeSlash />
-                  </span>
-                </div>
-                <label htmlFor='confirmPassword'>Confirmar Senha</label>
-                <input
-                  id='confirmPassword'
-                  type='text'
-                  placeholder='Digite aqui sua senha'
-                  {...register('confirmPassword')}
-                />
-              </>
-            ) : (
-              <>
-                <div className='password'>
-                  <input
-                    id='password'
-                    type='password'
-                    placeholder='Digite aqui sua senha'
-                    {...register('password')}
-                  />
-                  <span onClick={() => setIsView(true)}>
-                    <FaEye />
-                  </span>
-                </div>
-                <label htmlFor='confirmPassword'>Confirmar Senha</label>
-                <input
-                  id='confirmPassword'
-                  type='password'
-                  placeholder='Digite aqui sua senha'
-                  {...register('confirmPassword')}
-                />
-              </>
-            )}
+            <InputPassword register={register} isConfirm={true} />
             {errors.password && (
               <p>
                 {errors.password.message}
@@ -178,10 +126,13 @@ const Register = () => {
               <option value='Segundo Módulo'>Segundo Módulo</option>
               <option value='Terceiro Módulo'>Terceiro Módulo</option>
             </select>
-            <button type='submit'>Cadastrar</button>
+            <StyledButton location='register' type='submit'>
+              Cadastrar
+            </StyledButton>
           </form>
         </StyledSection>
       </div>
+      {loading && <Loading />}
     </StyledRegister>
   );
 };

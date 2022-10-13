@@ -153,54 +153,6 @@ export const StyledSection = styled.section`
     }
   }
 
-  button {
-    height: 38.38px;
-
-    margin-top: 10px;
-
-    background-color: var(--Color-primary-Negative);
-    border: 1.2182px solid var(--Color-primary-Negative);
-    border-radius: 4.06066px;
-
-    font-weight: 500;
-    font-size: 12.79px;
-    color: var(--Color-grey-0);
-  }
-  @media (min-width: 768px) {
-    button {
-      height: 48px;
-
-      font-size: 16px;
-
-      transition: 0.3s;
-
-      &:hover {
-        background-color: var(--Color-primary);
-        border-color: var(--Color-primary);
-
-        transition: 0.3s;
-      }
-    }
-  }
-
-  .password {
-    position: relative;
-
-    span {
-      position: absolute;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
-
-      font-size: 9.63px;
-    }
-    @media (min-width: 768px) {
-      span {
-        font-size: 12px;
-      }
-    }
-  }
-
   a {
     width: 90%;
 
