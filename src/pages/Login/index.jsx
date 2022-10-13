@@ -27,7 +27,9 @@ const Login = () => {
   });
   return (
     <StyledLogin>
-      <img src={logo} alt='Kenzie Hub' />
+      <Link to='/login'>
+        <img src={logo} alt='Kenzie Hub' />
+      </Link>
       <StyledSection>
         <h2>Login</h2>
         <form onSubmit={handleSubmit(login)}>
