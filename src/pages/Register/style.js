@@ -31,7 +31,7 @@ export const StyledRegister = styled.div`
       }
     }
 
-    a {
+    .button {
       height: 31.95px;
 
       display: inline-flex;
@@ -48,7 +48,7 @@ export const StyledRegister = styled.div`
     }
 
     @media (min-width: 768px) {
-      a {
+      .button {
         height: 40.11px;
 
         font-size: 12px;

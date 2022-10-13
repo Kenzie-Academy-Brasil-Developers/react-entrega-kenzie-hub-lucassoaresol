@@ -4,6 +4,7 @@ import { StartContext } from '../../contexts/StartContext';
 import { StyledButton } from '../../styles/button';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
 import logo from '../../assets/logo.svg';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { loading, user, navigate } = useContext(StartContext);
@@ -11,7 +12,9 @@ const Home = () => {
     <StyledContainerMain>
       <header>
         <StyledContainer position='header'>
-          <img src={logo} alt='Kenzie Hub' />
+          <Link to='/'>
+            <img src={logo} alt='Kenzie Hub' />
+          </Link>
           <StyledButton
             location='home'
             onClick={() => {
