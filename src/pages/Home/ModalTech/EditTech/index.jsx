@@ -1,7 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import {
   StyledModalTech,
   StyledModalTechContainer,
@@ -9,25 +7,14 @@ import {
 } from '../style';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TechContext } from '../../../../contexts/TechContext';
-import { IoMdInformationCircle } from 'react-icons/io';
 import { StyledButton } from '../../../../styles/button';
-
-const schema = yup.object({
-  title: yup.string().required('Nome é obrigatório'),
-});
 
 const EditTech = () => {
   const { tech, openModal, setOpenModal, techUpDate, techDelete } =
     useContext(TechContext);
+  const [isUpDate, setIsUpDate] = useState(true);
   const { id, status, title } = tech;
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, reset } = useForm();
   useEffect(() => {
     reset({ title: `${title}`, status: `${status}` });
   }, [tech]);
@@ -50,7 +37,9 @@ const EditTech = () => {
               <main>
                 <form
                   onSubmit={handleSubmit((data) => {
-                    techUpDate(data, id);
+                    if (isUpDate) {
+                      techUpDate(data, id);
+                    }
                   })}
                 >
                   <label htmlFor='title'>Nome</label>
@@ -61,12 +50,6 @@ const EditTech = () => {
                     placeholder='Nome da tecnologia'
                     {...register('title')}
                   />
-                  {errors.title && (
-                    <p>
-                      {errors.title.message}
-                      <IoMdInformationCircle />
-                    </p>
-                  )}
                   <label htmlFor='status'>Selecionar status</label>
                   <select id='status' {...register('status')}>
                     <option value='Iniciante'>Iniciante</option>
@@ -80,6 +63,7 @@ const EditTech = () => {
                     <StyledButton
                       location='delete'
                       onClick={() => {
+                        setIsUpDate(false);
                         techDelete(id);
                       }}
                     >
