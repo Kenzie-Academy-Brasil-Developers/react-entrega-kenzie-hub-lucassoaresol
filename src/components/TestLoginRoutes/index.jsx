@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import Loading from '../Loading';
 
-const ProtectedRoutes = () => {
+const TestLoginRoutes = () => {
   const { user, loading } = useContext(UserContext);
 
   if (loading) {
@@ -14,7 +14,7 @@ const ProtectedRoutes = () => {
     );
   }
 
-  return user ? <Outlet /> : <Navigate replace to='/login' />;
+  return user ? <Navigate replace to='/' /> : <Outlet />;
 };
 
-export default ProtectedRoutes;
+export default TestLoginRoutes;

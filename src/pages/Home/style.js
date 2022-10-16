@@ -24,18 +24,19 @@ export const StyledContainerMain = styled.div`
   main {
     width: 100%;
 
-    display: flex;
-    justify-content: center;
     margin-top: 30px;
 
-    h3 {
-      font-weight: 700;
-      font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-weight: 600;
+      font-size: 16px;
     }
 
-    h4 {
-      font-weight: 400;
-      font-size: 16px;
+    button {
+      font-size: 14px;
     }
   }
 `;
@@ -103,4 +104,21 @@ export const StyledUser = styled.section`
     font-size: 12px;
     color: var(--Color-grey-1);
   }
+`;
+
+export const StyledTechs = styled.ul`
+  width: 90%;
+
+  @media (min-width: 768px) {
+    width: 60%;
+  }
+
+  margin-top: 30px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  background-color: var(--Color-grey-3);
 `;

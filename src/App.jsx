@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalLoading from './components/GlobalLoading';
+import TechProvider from './contexts/TechContext';
 import UserProvider from './contexts/UserContext';
 import Routes from './Routes';
 import Global from './styles/global';
@@ -9,9 +9,9 @@ const App = () => {
     <>
       <Global />
       <UserProvider>
-        <GlobalLoading>
+        <TechProvider>
           <Routes />
-        </GlobalLoading>
+        </TechProvider>
       </UserProvider>
     </>
   );

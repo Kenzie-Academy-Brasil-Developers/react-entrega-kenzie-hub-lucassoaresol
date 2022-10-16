@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -15,13 +15,14 @@ const UserProvider = ({ children }) => {
     (async () => {
       const token = localStorage.getItem('@TokenKenzieHub');
       if (token) {
-        setGlobalLoading(true);
         try {
+          setGlobalLoading(true);
           api.defaults.headers.authorization = `Bearer ${token}`;
           const { data } = await api.get('profile');
           setUser(data);
         } catch (error) {
           console.error(error);
+          setLoading(false);
         } finally {
           setGlobalLoading(false);
           setLoading(false);
@@ -31,6 +32,28 @@ const UserProvider = ({ children }) => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const token = localStorage.getItem('@TokenKenzieHub');
+      if (token) {
+        try {
+          setGlobalLoading(true);
+          api.defaults.headers.authorization = `Bearer ${token}`;
+          const { data } = await api.get('profile');
+          setUser(data);
+        } catch (error) {
+          console.error(error);
+          setLoading(false);
+        } finally {
+          setGlobalLoading(false);
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    })();
+  }, [user]);
 
   const userLogin = async (data) => {
     try {
@@ -90,6 +113,7 @@ const UserProvider = ({ children }) => {
         userRegister,
         user,
         globalLoading,
+        setGlobalLoading,
         loading,
       }}
     >

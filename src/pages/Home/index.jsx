@@ -1,13 +1,25 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { StyledButton } from '../../styles/button';
-import { StyledContainer, StyledContainerMain, StyledUser } from './style';
+import { StyledButtonHome } from '../../styles/button';
+import {
+  StyledContainer,
+  StyledContainerMain,
+  StyledTechs,
+  StyledUser,
+} from './style';
 import logo from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
 import TechsCard from './TechsCard';
+import { VscAdd } from 'react-icons/vsc';
+import { TechContext } from '../../contexts/TechContext';
+import ModalTech from './ModalTech';
 
 const Home = () => {
-  const { user, userLogout } = useContext(UserContext);
+  const {
+    user: { name, course_module, techs },
+    userLogout,
+  } = useContext(UserContext);
+  const { setOpenModal, setTypeModal } = useContext(TechContext);
   return (
     <StyledContainerMain>
       <header>
@@ -15,28 +27,43 @@ const Home = () => {
           <Link to='/'>
             <img src={logo} alt='Kenzie Hub' />
           </Link>
-          <StyledButton location='home' onClick={userLogout}>
+          <StyledButtonHome location='home' onClick={userLogout}>
             Sair
-          </StyledButton>
+          </StyledButtonHome>
         </StyledContainer>
       </header>
       <>
         <StyledUser>
           <StyledContainer position='user'>
-            <h1>Olá, {user.name}</h1>
-            <h2>{user.course_module}</h2>
+            <h1>Olá, {name}</h1>
+            <h2>{course_module}</h2>
           </StyledContainer>
         </StyledUser>
         <main>
-          <StyledContainer>
-            <ul>
-              {user.techs.map((el) => (
-                <TechsCard key={el.id} tech={el} />
-              ))}
-            </ul>
+          <StyledContainer position='header'>
+            <h2>Tecnologias</h2>
+            <StyledButtonHome
+              location='tech'
+              onClick={() => {
+                setOpenModal(true);
+                setTypeModal(true);
+              }}
+            >
+              <VscAdd />
+            </StyledButtonHome>
           </StyledContainer>
+          <>
+            {techs.length ? (
+              <StyledTechs>
+                {techs.map((el) => (
+                  <TechsCard key={el.id} tech={el} />
+                ))}
+              </StyledTechs>
+            ) : null}
+          </>
         </main>
       </>
+      <ModalTech />
     </StyledContainerMain>
   );
 };

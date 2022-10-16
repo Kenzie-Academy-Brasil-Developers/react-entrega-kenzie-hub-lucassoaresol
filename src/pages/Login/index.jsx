@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -9,6 +9,7 @@ import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
 import { StyledButton } from '.././../styles/button';
 import { UserContext } from '../../contexts/UserContext';
+import Loading from '../../components/Loading';
 
 const schema = yup.object({
   email: yup.string().required('Email é obrigatório'),
@@ -59,6 +60,7 @@ const Login = () => {
           <div>Cadastre-se</div>
         </Link>
       </StyledSection>
+      <Loading />
     </StyledLogin>
   );
 };
