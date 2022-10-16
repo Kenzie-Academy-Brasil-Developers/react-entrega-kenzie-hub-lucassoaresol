@@ -9,6 +9,7 @@ import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
 import { StyledButton } from '../../styles/button';
 import { UserContext } from '../../contexts/UserContext';
+import Loading from '../../components/Loading';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -35,7 +36,7 @@ const schema = yup.object({
 });
 
 const Register = () => {
-  const { createUser } = useContext(UserContext);
+  const { userRegister } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -57,7 +58,7 @@ const Register = () => {
         <StyledSection>
           <h2>Crie sua conta</h2>
           <h3>Rapido e grátis, vamos nessa</h3>
-          <form onSubmit={handleSubmit(createUser)}>
+          <form onSubmit={handleSubmit(userRegister)}>
             <label htmlFor='name'>Nome</label>
             <input
               id='name'
@@ -135,6 +136,7 @@ const Register = () => {
           </form>
         </StyledSection>
       </div>
+      <Loading />
     </StyledRegister>
   );
 };

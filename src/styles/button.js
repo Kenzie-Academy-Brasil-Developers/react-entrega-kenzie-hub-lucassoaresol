@@ -16,34 +16,12 @@ export const StyledButton = styled.button`
     transition: 0.3s;
   }
 
-  border-radius: 4px;
+  background-color: var(--Color-primary);
   border: 1px solid var(--Color-primary);
+  border-radius: 4px;
+
   ${({ location }) => {
     switch (location) {
-      case 'home':
-        return css`
-          height: 32px;
-          margin-top: 0;
-          padding: 0 16px;
-
-          background-color: var(--Color-grey-3);
-          border-color: var(--Color-grey-3);
-
-          font-weight: 600;
-
-          @media (min-width: 768px) {
-            height: 32px;
-
-            font-size: 12px;
-
-            &:hover {
-              background-color: var(--Color-grey-2);
-              border-color: var(--Color-grey-2);
-
-              transition: 0.3s;
-            }
-          }
-        `;
       case 'register':
         return css`
           background-color: var(--Color-primary-Negative);
@@ -58,11 +36,23 @@ export const StyledButton = styled.button`
             }
           }
         `;
+      case 'delete':
+        return css`
+          background-color: var(--Color-grey-1);
+          border-color: var(--Color-grey-1);
+
+          @media (min-width: 768px) {
+            &:hover {
+              background-color: var(--Color-grey-2);
+              border-color: var(--Color-grey-2);
+
+              transition: 0.3s;
+            }
+          }
+        `;
 
       default:
         return css`
-          background-color: var(--Color-primary);
-
           @media (min-width: 768px) {
             &:hover {
               background-color: var(--Color-primary-Focus);
@@ -71,6 +61,42 @@ export const StyledButton = styled.button`
               transition: 0.3s;
             }
           }
+        `;
+    }
+  }}
+`;
+export const StyledButtonHome = styled.button`
+  height: 32px;
+
+  background-color: var(--Color-grey-3);
+  border-color: var(--Color-grey-3);
+  border-radius: 4px;
+
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--Color-grey-0);
+
+  transition: 0.3s;
+
+  @media (min-width: 768px) {
+    &:hover {
+      background-color: var(--Color-grey-2);
+      border-color: var(--Color-grey-2);
+
+      transition: 0.3s;
+    }
+  }
+
+  ${({ location }) => {
+    switch (location) {
+      case 'tech':
+        return css`
+          width: 32px;
+        `;
+
+      default:
+        return css`
+          padding: 0 16px;
         `;
     }
   }}
