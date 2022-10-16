@@ -19,7 +19,6 @@ export const StyledContainerMain = styled.div`
     img {
       height: 14.63px;
     }
-
   }
 
   main {
@@ -74,7 +73,6 @@ export const StyledContainer = styled.div`
 
       default:
         return css`
-          display: none;
           @media (min-width: 768px) {
             display: flex;
             flex-direction: column;

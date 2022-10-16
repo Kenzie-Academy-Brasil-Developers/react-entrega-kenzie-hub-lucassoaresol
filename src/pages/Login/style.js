@@ -51,7 +51,7 @@ export const StyledSection = styled.section`
     flex-direction: column;
     gap: 5px;
 
-    p{
+    p {
       display: inline-flex;
       align-items: center;
       justify-content: flex-end;
@@ -84,7 +84,7 @@ export const StyledSection = styled.section`
     font-size: 13.03px;
     color: var(--Color-grey-0);
 
-    &::placeholder{
+    &::placeholder {
       color: var(--Color-grey-1);
     }
   }
@@ -115,7 +115,7 @@ export const StyledSection = styled.section`
 
         transition: 0.3s;
 
-        &:hover{
+        &:hover {
           color: var(--Color-grey-0);
 
           transition: 0.3s;
@@ -147,10 +147,10 @@ export const StyledSection = styled.section`
 
         transition: 0.3s;
 
-        &:hover{
+        &:hover {
           background-color: var(--Color-grey-2);
           border-color: var(--Color-grey-2);
-          
+
           transition: 0.3s;
         }
       }

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import Loading from '../../components/Loading';
-import { StartContext } from '../../contexts/StartContext';
+import { UserContext } from '../../contexts/UserContext';
 import { StyledButton } from '../../styles/button';
 import { StyledContainer, StyledContainerMain, StyledUser } from './style';
 import logo from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
+import TechsCard from './TechsCard';
 
 const Home = () => {
-  const { loading, user, navigate } = useContext(StartContext);
+  const { user, userLogout } = useContext(UserContext);
   return (
     <StyledContainerMain>
       <header>
@@ -15,13 +15,7 @@ const Home = () => {
           <Link to='/'>
             <img src={logo} alt='Kenzie Hub' />
           </Link>
-          <StyledButton
-            location='home'
-            onClick={() => {
-              localStorage.removeItem('@TokenKenzieHub');
-              navigate('/login');
-            }}
-          >
+          <StyledButton location='home' onClick={userLogout}>
             Sair
           </StyledButton>
         </StyledContainer>
@@ -35,15 +29,14 @@ const Home = () => {
         </StyledUser>
         <main>
           <StyledContainer>
-            <h3>Que pena! Estamos em desenvolvimento :(</h3>
-            <h4>
-              Nossa aplicação está em desenvolvimento, em breve teremos
-              novidades
-            </h4>
+            <ul>
+              {user.techs.map((el) => (
+                <TechsCard key={el.id} tech={el} />
+              ))}
+            </ul>
           </StyledContainer>
         </main>
       </>
-      {loading && <Loading />}
     </StyledContainerMain>
   );
 };

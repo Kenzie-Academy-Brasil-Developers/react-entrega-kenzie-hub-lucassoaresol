@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { StartContext } from '../../contexts/StartContext';
+import { UserContext } from '../../contexts/UserContext';
 
 const ProtectedRoutes = () => {
-  const { user, isGoToken } = useContext(StartContext);
+  const { user, globalLoading } = useContext(UserContext);
 
-  if (isGoToken) {
+  if (globalLoading) {
     return null;
   }
 

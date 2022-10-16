@@ -1,5 +1,6 @@
 import React from 'react';
-import StartProvider from './contexts/StartContext';
+import GlobalLoading from './components/GlobalLoading';
+import UserProvider from './contexts/UserContext';
 import Routes from './Routes';
 import Global from './styles/global';
 
@@ -7,9 +8,11 @@ const App = () => {
   return (
     <>
       <Global />
-      <StartProvider>
-        <Routes />
-      </StartProvider>
+      <UserProvider>
+        <GlobalLoading>
+          <Routes />
+        </GlobalLoading>
+      </UserProvider>
     </>
   );
 };

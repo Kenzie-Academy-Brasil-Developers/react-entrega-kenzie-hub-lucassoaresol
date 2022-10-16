@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -7,9 +7,8 @@ import { Link } from 'react-router-dom';
 import { IoMdInformationCircle } from 'react-icons/io';
 import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
-import Loading from '../../components/Loading';
-import { StyledButton } from '../../styles/button';
-import { StartContext } from '../../contexts/StartContext';
+import { StyledButton } from '.././../styles/button';
+import { UserContext } from '../../contexts/UserContext';
 
 const schema = yup.object({
   email: yup.string().required('Email é obrigatório'),
@@ -17,7 +16,7 @@ const schema = yup.object({
 });
 
 const Login = () => {
-  const { loading, login } = useContext(StartContext);
+  const { userLogin } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -32,7 +31,7 @@ const Login = () => {
       </Link>
       <StyledSection>
         <h2>Login</h2>
-        <form onSubmit={handleSubmit(login)}>
+        <form onSubmit={handleSubmit(userLogin)}>
           <label htmlFor='email'>Email</label>
           <input
             id='email'
@@ -60,7 +59,6 @@ const Login = () => {
           <div>Cadastre-se</div>
         </Link>
       </StyledSection>
-      {loading && <Loading />}
     </StyledLogin>
   );
 };

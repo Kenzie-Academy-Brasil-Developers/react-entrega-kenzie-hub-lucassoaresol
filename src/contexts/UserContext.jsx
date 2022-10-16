@@ -3,45 +3,44 @@ import { api } from '../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-export const StartContext = createContext();
+export const UserContext = createContext();
 
-const StartProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
-  const [isGoToken, setIsGoToken] = useState(true);
+const UserProvider = ({ children }) => {
+  const [globalLoading, setGlobalLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadUser = async () => {
+    (async () => {
       const token = localStorage.getItem('@TokenKenzieHub');
       if (token) {
+        setGlobalLoading(true);
         try {
-          setLoading(true);
           api.defaults.headers.authorization = `Bearer ${token}`;
           const { data } = await api.get('profile');
           setUser(data);
-          setIsGoToken(false);
         } catch (error) {
           console.error(error);
         } finally {
+          setGlobalLoading(false);
           setLoading(false);
         }
       } else {
-        setIsGoToken(false);
+        setLoading(false);
       }
-    };
-    loadUser();
+    })();
   }, []);
 
-  const login = async (data) => {
+  const userLogin = async (data) => {
     try {
-      setLoading(true);
-      const response = await api.post('sessions', data);
-      const token = response.data.token;
+      setGlobalLoading(true);
+      const {
+        data: { token, user },
+      } = await api.post('sessions', data);
       localStorage.setItem('@TokenKenzieHub', token);
       api.defaults.headers.authorization = `Bearer ${token}`;
-      setUser(response.data.user);
-      setIsGoToken(false);
+      setUser(user);
       toast.success('Login feito com sucesso!', {
         autoClose: 900,
       });
@@ -54,13 +53,21 @@ const StartProvider = ({ children }) => {
         autoClose: 3000,
       });
     } finally {
-      setLoading(false);
+      setGlobalLoading(false);
     }
   };
 
-  const createUser = async (data) => {
+  const userLogout = () => {
+    localStorage.removeItem('@TokenKenzieHub');
+    setUser(null);
+    navigate('/login', {
+      replace: true,
+    });
+  };
+
+  const userRegister = async (data) => {
     try {
-      setLoading(true);
+      setGlobalLoading(true);
       await api.post('users', data);
       toast.success('Conta criada com sucesso!', {
         autoClose: 3000,
@@ -71,24 +78,24 @@ const StartProvider = ({ children }) => {
         autoClose: 3000,
       });
     } finally {
-      setLoading(false);
+      setGlobalLoading(false);
     }
   };
 
   return (
-    <StartContext.Provider
+    <UserContext.Provider
       value={{
-        loading,
-        login,
-        createUser,
+        userLogin,
+        userLogout,
+        userRegister,
         user,
-        navigate,
-        isGoToken,
+        globalLoading,
+        loading,
       }}
     >
       {children}
-    </StartContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export default StartProvider;
+export default UserProvider;

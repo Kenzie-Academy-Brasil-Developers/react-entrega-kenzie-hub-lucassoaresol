@@ -7,9 +7,8 @@ import { IoMdInformationCircle } from 'react-icons/io';
 import { StyledRegister, StyledSection } from './style';
 import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
-import Loading from '../../components/Loading';
 import { StyledButton } from '../../styles/button';
-import { StartContext } from '../../contexts/StartContext';
+import { UserContext } from '../../contexts/UserContext';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -36,7 +35,7 @@ const schema = yup.object({
 });
 
 const Register = () => {
-  const { loading, createUser } = useContext(StartContext);
+  const { createUser } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -51,7 +50,9 @@ const Register = () => {
           <Link to='/login'>
             <img src={logo} alt='Kenzie Hub' />
           </Link>
-          <Link className='button' to='../login'>Voltar</Link>
+          <Link className='button' to='../login'>
+            Voltar
+          </Link>
         </header>
         <StyledSection>
           <h2>Crie sua conta</h2>
@@ -134,7 +135,6 @@ const Register = () => {
           </form>
         </StyledSection>
       </div>
-      {loading && <Loading />}
     </StyledRegister>
   );
 };
