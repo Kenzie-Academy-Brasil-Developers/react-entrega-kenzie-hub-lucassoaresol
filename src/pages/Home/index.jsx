@@ -16,7 +16,8 @@ import ModalTech from './ModalTech';
 
 const Home = () => {
   const {
-    user: { name, course_module, techs },
+    user: { name, course_module },
+    techList,
     userLogout,
   } = useContext(UserContext);
   const { setOpenModal, setTypeModal } = useContext(TechContext);
@@ -53,9 +54,9 @@ const Home = () => {
             </StyledButtonHome>
           </StyledContainer>
           <>
-            {techs.length ? (
+            {techList.length ? (
               <StyledTechs>
-                {techs.map((el) => (
+                {techList.map((el) => (
                   <TechsCard key={el.id} tech={el} />
                 ))}
               </StyledTechs>

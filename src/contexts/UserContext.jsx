@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
   const [globalLoading, setGlobalLoading] = useState();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [techList, setTechList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const UserProvider = ({ children }) => {
           api.defaults.headers.authorization = `Bearer ${token}`;
           const { data } = await api.get('profile');
           setUser(data);
+          setTechList(data.techs);
         } catch (error) {
           console.error(error);
           setLoading(false);
@@ -33,28 +35,6 @@ const UserProvider = ({ children }) => {
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const token = localStorage.getItem('@TokenKenzieHub');
-      if (token) {
-        try {
-          setGlobalLoading(true);
-          api.defaults.headers.authorization = `Bearer ${token}`;
-          const { data } = await api.get('profile');
-          setUser(data);
-        } catch (error) {
-          console.error(error);
-          setLoading(false);
-        } finally {
-          setGlobalLoading(false);
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    })();
-  }, [user]);
-
   const userLogin = async (data) => {
     try {
       setGlobalLoading(true);
@@ -64,6 +44,7 @@ const UserProvider = ({ children }) => {
       localStorage.setItem('@TokenKenzieHub', token);
       api.defaults.headers.authorization = `Bearer ${token}`;
       setUser(user);
+      setTechList(user.techs);
       toast.success('Login feito com sucesso!', {
         autoClose: 900,
       });
@@ -83,6 +64,7 @@ const UserProvider = ({ children }) => {
   const userLogout = () => {
     localStorage.removeItem('@TokenKenzieHub');
     setUser(null);
+    setTechList([]);
     navigate('/login', {
       replace: true,
     });
@@ -112,6 +94,8 @@ const UserProvider = ({ children }) => {
         userLogout,
         userRegister,
         user,
+        techList,
+        setTechList,
         globalLoading,
         setGlobalLoading,
         loading,
