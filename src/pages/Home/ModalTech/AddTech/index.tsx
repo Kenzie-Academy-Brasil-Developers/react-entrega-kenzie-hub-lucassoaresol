@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TechContext } from '../../../../contexts/TechContext';
-import { IoMdInformationCircle } from 'react-icons/io';
 import { StyledButton } from '../../../../styles/button';
 import {
   StyledModalTech,
   StyledModalTechContainer,
   StyledModalTechMain,
 } from '../style';
+import ErrorsMessage from '../../../../components/ErrorsMessage';
 
 const schema = yup.object({
   title: yup.string().required('Nome é obrigatório'),
@@ -47,7 +47,7 @@ const AddTech = () => {
             </header>
             <StyledModalTechMain>
               <main>
-                <form onSubmit={handleSubmit(techCreate)}>
+                <form onSubmit={handleSubmit((data) => techCreate(data))}>
                   <label htmlFor='title'>Nome</label>
                   <input
                     id='title'
@@ -55,12 +55,7 @@ const AddTech = () => {
                     placeholder='Nome da tecnologia'
                     {...register('title')}
                   />
-                  {errors.title && (
-                    <p>
-                      {errors.title.message}
-                      <IoMdInformationCircle />
-                    </p>
-                  )}
+                  <ErrorsMessage errors={errors} id='title' />
                   <label htmlFor='status'>Selecionar status</label>
                   <select id='status' {...register('status')}>
                     <option value='Iniciante'>Iniciante</option>

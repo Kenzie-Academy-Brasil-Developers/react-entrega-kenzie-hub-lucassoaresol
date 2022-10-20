@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
-import { IoMdInformationCircle } from 'react-icons/io';
 import { StyledRegister, StyledSection } from './style';
 import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
 import { StyledButton } from '../../styles/button';
 import { UserContext } from '../../contexts/UserContext';
 import Loading from '../../components/Loading';
+import ErrorsMessage from '../../components/ErrorsMessage';
 
 const schema = yup.object({
   name: yup.string().required('Nome é obrigatório'),
@@ -66,12 +66,7 @@ const Register = () => {
               placeholder='Digite aqui seu nome'
               {...register('name')}
             />
-            {errors.name && (
-              <p>
-                {errors.name.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
+            <ErrorsMessage errors={errors} id='name' />
             <label htmlFor='email'>Email</label>
             <input
               id='email'
@@ -79,25 +74,10 @@ const Register = () => {
               placeholder='Digite aqui seu email'
               {...register('email')}
             />
-            {errors.email && (
-              <p>
-                {errors.email.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
+            <ErrorsMessage errors={errors} id='email' />
             <InputPassword register={register} isConfirm={true} />
-            {errors.password && (
-              <p>
-                {errors.password.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
-            {errors.confirmPassword && (
-              <p>
-                {errors.confirmPassword.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
+            <ErrorsMessage errors={errors} id='password' />
+            <ErrorsMessage errors={errors} id='confirmPassword' />
             <label htmlFor='bio'>Bio</label>
             <input
               id='bio'
@@ -105,12 +85,7 @@ const Register = () => {
               placeholder='Fale sobre você'
               {...register('bio')}
             />
-            {errors.bio && (
-              <p>
-                {errors.bio.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
+            <ErrorsMessage errors={errors} id='bio' />
             <label htmlFor='contact'>Contato</label>
             <input
               id='contact'
@@ -118,12 +93,7 @@ const Register = () => {
               placeholder='Opção de contato'
               {...register('contact')}
             />
-            {errors.contact && (
-              <p>
-                {errors.contact.message}
-                <IoMdInformationCircle />
-              </p>
-            )}
+            <ErrorsMessage errors={errors} id='contact' />
             <label htmlFor='course_module'>Selecionar módulo</label>
             <select id='course_module' {...register('course_module')}>
               <option value='Primeiro Módulo'>Primeiro Módulo</option>

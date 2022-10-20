@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StyledInputPassword } from './style';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-const InputPassword = ({ register, isConfirm }) => {
+interface iInputPasswordProps{
+  register: UseFormRegister<FieldValues>;
+  isConfirm?: boolean;
+}
+
+const InputPassword = ({ register, isConfirm }:iInputPasswordProps) => {
   const [isView, setIsView] = useState(false);
   return (
     <>
