@@ -1,18 +1,43 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
+import { ipostTechsProps, postTechs } from '../services/postTechs';
 import { UserContext } from './UserContext';
 
-export const TechContext = createContext();
+interface iTechContextProps{
+  children: ReactNode;
+}
 
-const TechProvider = ({ children }) => {
-  const [openModal, setOpenModal] = useState();
-  const [typeModal, setTypeModal] = useState();
+interface iTechContext{
+  tech: {
+    id: string;
+    status: string;
+    title: string;
+};
+  setTech: Dispatch<SetStateAction<{
+    id: string;
+    status: string;
+    title: string;
+}>>;
+  openModal: boolean | undefined;
+  setOpenModal: Dispatch<SetStateAction<boolean | undefined>>;
+  typeModal: boolean | undefined;
+  setTypeModal: Dispatch<SetStateAction<boolean | undefined>>;
+  techCreate: (data: any) => Promise<void>;
+  techUpDate: (data: any, id: any) => Promise<void>;
+  techDelete: (id: any) => Promise<void>;
+}
+
+export const TechContext = createContext({} as iTechContext);
+
+const TechProvider = ({ children }:iTechContextProps) => {
+  const [openModal, setOpenModal] = useState<boolean>();
+  const [typeModal, setTypeModal] = useState<boolean>();
   const [tech, setTech] = useState({ id: '', status: '', title: '' });
   const { techList, setTechList } = useContext(UserContext);
-  const techCreate = async (data) => {
+  const techCreate = async (data:ipostTechsProps) => {
     try {
-      const { data: response } = await api.post('users/techs', data);
+      const response = await postTechs(data);
       toast.success('Tecnologia criada com sucesso!', {
         autoClose: 2000,
       });
@@ -24,10 +49,10 @@ const TechProvider = ({ children }) => {
       });
     }
   };
-  const techUpDate = async (data, id) => {
+  const techUpDate = async (data:ipostTechsProps, id:string) => {
     try {
       const { data: response } = await api.put(`users/techs/${id}`, data);
-      const filtered = techList.filter((el) => el.id != response.id);
+      const filtered = techList.filter((el:any) => el.id != response.id);
       setTechList([...filtered, response]);
       toast.success('Tecnologia alterada com sucesso!', {
         autoClose: 2000,
@@ -37,10 +62,10 @@ const TechProvider = ({ children }) => {
       console.error(error);
     }
   };
-  const techDelete = async (id) => {
+  const techDelete = async (id:string) => {
     try {
       await api.delete(`users/techs/${id}`);
-      const filtered = techList.filter((el) => el.id != id);
+      const filtered = techList.filter((el:any) => el.id != id);
       setTechList(filtered);
       toast.success('Tecnologia deletada com sucesso!', {
         autoClose: 2000,

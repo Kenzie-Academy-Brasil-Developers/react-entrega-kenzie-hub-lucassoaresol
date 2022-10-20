@@ -1,6 +1,10 @@
 import styled, { css } from 'styled-components';
 
-export const StyledButton = styled.button`
+interface iButtonProps{
+  location?: string;
+}
+
+export const StyledButton = styled.button<iButtonProps>`
   height: 38.5px;
   margin-top: 10px;
 
@@ -65,7 +69,7 @@ export const StyledButton = styled.button`
     }
   }}
 `;
-export const StyledButtonHome = styled.button`
+export const StyledButtonHome = styled.button<iButtonProps>`
   height: 32px;
 
   background-color: var(--Color-grey-3);

@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+interface iStyledContainerProps{
+  position: string
+}
+
 export const StyledContainerMain = styled.div`
   width: 100vw;
 
@@ -41,7 +45,7 @@ export const StyledContainerMain = styled.div`
   }
 `;
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div<iStyledContainerProps>`
   width: 90%;
   height: 100%;
 

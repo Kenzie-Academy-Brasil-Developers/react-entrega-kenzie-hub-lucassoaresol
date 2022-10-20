@@ -1,15 +1,32 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { getUser, igetUser, ipostUser, ipostUserProps, postUser } from '../services/apiUser';
 
-export const UserContext = createContext();
+interface iUserContextProps{
+  children: ReactNode;
+}
 
-const UserProvider = ({ children }) => {
-  const [globalLoading, setGlobalLoading] = useState();
+interface iUserContext{
+  userLogin: (data: any) => Promise<void>;
+  userLogout: () => void;
+  userRegister: (data: any) => Promise<void>;
+  user: any;
+  techList: any[];
+  setTechList: Dispatch<SetStateAction<any[]>>;
+  globalLoading: boolean | undefined;
+  setGlobalLoading: Dispatch<SetStateAction<boolean | undefined>>;
+  loading: boolean;
+}
+
+export const UserContext = createContext({} as iUserContext);
+
+const UserProvider = ({ children }:iUserContextProps) => {
+  const [globalLoading, setGlobalLoading] = useState<boolean>();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [techList, setTechList] = useState([]);
+  const [user, setUser] = useState<igetUser | null>(null);
+  const [techList, setTechList] = useState([] as any[]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +36,7 @@ const UserProvider = ({ children }) => {
         try {
           setGlobalLoading(true);
           api.defaults.headers.authorization = `Bearer ${token}`;
-          const { data } = await api.get('profile');
+          const data = await getUser();
           setUser(data);
           setTechList(data.techs);
         } catch (error) {
@@ -35,12 +52,10 @@ const UserProvider = ({ children }) => {
     })();
   }, []);
 
-  const userLogin = async (data) => {
+  const userLogin = async (data:ipostUserProps) => {
     try {
       setGlobalLoading(true);
-      const {
-        data: { token, user },
-      } = await api.post('sessions', data);
+      const {token, user}:ipostUser = await postUser(data)
       localStorage.setItem('@TokenKenzieHub', token);
       api.defaults.headers.authorization = `Bearer ${token}`;
       setUser(user);
@@ -70,7 +85,7 @@ const UserProvider = ({ children }) => {
     });
   };
 
-  const userRegister = async (data) => {
+  const userRegister = async (data:any) => {
     try {
       setGlobalLoading(true);
       await api.post('users', data);

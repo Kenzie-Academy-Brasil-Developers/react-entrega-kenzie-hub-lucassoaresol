@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { TechContext } from '../../../contexts/TechContext';
 import AddTech from './AddTech';
 import EditTech from './EditTech';

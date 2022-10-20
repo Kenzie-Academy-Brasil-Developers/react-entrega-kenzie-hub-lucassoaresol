@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { StyledLogin, StyledSection } from './style';
 import { Link } from 'react-router-dom';
-import { IoMdInformationCircle } from 'react-icons/io';
 import logo from '../../assets/logo.svg';
 import InputPassword from '../../components/InputPassword';
-import { StyledButton } from '.././../styles/button';
+import { StyledButton } from '../../styles/button';
 import { UserContext } from '../../contexts/UserContext';
 import Loading from '../../components/Loading';
+import ErrorsMessage from '../../components/ErrorsMessage';
 
 const schema = yup.object({
   email: yup.string().required('Email é obrigatório'),
@@ -40,19 +40,9 @@ const Login = () => {
             placeholder='Digite aqui seu email'
             {...register('email')}
           />
-          {errors.email && (
-            <p>
-              {errors.email.message}
-              <IoMdInformationCircle />
-            </p>
-          )}
+          <ErrorsMessage errors={errors} id='email' />
           <InputPassword register={register} />
-          {errors.password && (
-            <p>
-              {errors.password.message}
-              <IoMdInformationCircle />
-            </p>
-          )}
+          <ErrorsMessage errors={errors} id='password' />
           <StyledButton type='submit'>Entrar</StyledButton>
         </form>
         <Link to='../register'>

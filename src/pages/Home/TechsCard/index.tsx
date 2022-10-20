@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { TechContext } from '../../../contexts/TechContext';
 import { StyledTechsCard } from './style';
 
-const TechsCard = ({ tech }) => {
+const TechsCard = ({ tech }:any) => {
   const { setTech, setOpenModal, setTypeModal } = useContext(TechContext);
   const { status, title } = tech;
   return (
