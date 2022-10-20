@@ -1,7 +1,8 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
-import { ipostTechsProps, postTechs } from '../services/postTechs';
+import { postTechs, putTechs } from '../services/apiTechs';
 import { UserContext } from './UserContext';
 
 interface iTechContextProps{
@@ -23,9 +24,9 @@ interface iTechContext{
   setOpenModal: Dispatch<SetStateAction<boolean | undefined>>;
   typeModal: boolean | undefined;
   setTypeModal: Dispatch<SetStateAction<boolean | undefined>>;
-  techCreate: (data: any) => Promise<void>;
-  techUpDate: (data: any, id: any) => Promise<void>;
-  techDelete: (id: any) => Promise<void>;
+  techCreate: (data: FieldValues) => Promise<void>;
+  techUpDate: (data: FieldValues, id: string) => Promise<void>;
+  techDelete: (id: string) => Promise<void>;
 }
 
 export const TechContext = createContext({} as iTechContext);
@@ -35,7 +36,7 @@ const TechProvider = ({ children }:iTechContextProps) => {
   const [typeModal, setTypeModal] = useState<boolean>();
   const [tech, setTech] = useState({ id: '', status: '', title: '' });
   const { userAutoLogin } = useContext(UserContext);
-  const techCreate = async (data:ipostTechsProps) => {
+  const techCreate = async (data:FieldValues) => {
     try {
       await postTechs(data);
       toast.success('Tecnologia criada com sucesso!', {
@@ -49,9 +50,9 @@ const TechProvider = ({ children }:iTechContextProps) => {
       });
     }
   };
-  const techUpDate = async (data:ipostTechsProps, id:string) => {
+  const techUpDate = async (data:FieldValues, id:string) => {
     try {
-      await api.put(`users/techs/${id}`, data);
+      await putTechs(data,id);
       userAutoLogin();
       toast.success('Tecnologia alterada com sucesso!', {
         autoClose: 2000,
@@ -63,7 +64,7 @@ const TechProvider = ({ children }:iTechContextProps) => {
   };
   const techDelete = async (id:string) => {
     try {
-      api.delete(`users/techs/${id}`);
+      await api.delete(`users/techs/${id}`);
       userAutoLogin();
       toast.success('Tecnologia deletada com sucesso!', {
         autoClose: 2000,

@@ -16,7 +16,7 @@ import ModalTech from './ModalTech';
 
 const Home = () => {
   const {
-    user: { name, course_module },
+    user,
     techList,
     userLogout,
   } = useContext(UserContext);
@@ -36,8 +36,8 @@ const Home = () => {
       <>
         <StyledUser>
           <StyledContainer position='user'>
-            <h1>Olá, {name}</h1>
-            <h2>{course_module}</h2>
+            <h1>Olá, {user?.name}</h1>
+            <h2>{user?.course_module}</h2>
           </StyledContainer>
         </StyledUser>
         <main>
