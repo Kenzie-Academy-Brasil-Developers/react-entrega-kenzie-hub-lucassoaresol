@@ -9,12 +9,12 @@ interface iUserContextProps{
 }
 
 interface iUserContext{
+  userAutoLogin: () => Promise<void>;
   userLogin: (data: any) => Promise<void>;
   userLogout: () => void;
   userRegister: (data: any) => Promise<void>;
   user: any;
   techList: any[];
-  setTechList: Dispatch<SetStateAction<any[]>>;
   globalLoading: boolean | undefined;
   setGlobalLoading: Dispatch<SetStateAction<boolean | undefined>>;
   loading: boolean;
@@ -30,8 +30,11 @@ const UserProvider = ({ children }:iUserContextProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const token = localStorage.getItem('@TokenKenzieHub');
+    userAutoLogin();
+  }, []);
+
+  async function userAutoLogin() {
+    const token = localStorage.getItem('@TokenKenzieHub');
       if (token) {
         try {
           setGlobalLoading(true);
@@ -49,8 +52,7 @@ const UserProvider = ({ children }:iUserContextProps) => {
       } else {
         setLoading(false);
       }
-    })();
-  }, []);
+  }
 
   const userLogin = async (data:ipostUserProps) => {
     try {
@@ -105,12 +107,12 @@ const UserProvider = ({ children }:iUserContextProps) => {
   return (
     <UserContext.Provider
       value={{
+        userAutoLogin,
         userLogin,
         userLogout,
         userRegister,
         user,
         techList,
-        setTechList,
         globalLoading,
         setGlobalLoading,
         loading,

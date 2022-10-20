@@ -34,15 +34,15 @@ const TechProvider = ({ children }:iTechContextProps) => {
   const [openModal, setOpenModal] = useState<boolean>();
   const [typeModal, setTypeModal] = useState<boolean>();
   const [tech, setTech] = useState({ id: '', status: '', title: '' });
-  const { techList, setTechList } = useContext(UserContext);
+  const { userAutoLogin } = useContext(UserContext);
   const techCreate = async (data:ipostTechsProps) => {
     try {
-      const response = await postTechs(data);
+      await postTechs(data);
       toast.success('Tecnologia criada com sucesso!', {
         autoClose: 2000,
       });
       setOpenModal(false);
-      setTechList([...techList, response]);
+      userAutoLogin();
     } catch (error) {
       toast.error('A Tecnologia já existe', {
         autoClose: 3000,
@@ -51,9 +51,8 @@ const TechProvider = ({ children }:iTechContextProps) => {
   };
   const techUpDate = async (data:ipostTechsProps, id:string) => {
     try {
-      const { data: response } = await api.put(`users/techs/${id}`, data);
-      const filtered = techList.filter((el:any) => el.id != response.id);
-      setTechList([...filtered, response]);
+      await api.put(`users/techs/${id}`, data);
+      userAutoLogin();
       toast.success('Tecnologia alterada com sucesso!', {
         autoClose: 2000,
       });
@@ -64,9 +63,8 @@ const TechProvider = ({ children }:iTechContextProps) => {
   };
   const techDelete = async (id:string) => {
     try {
-      await api.delete(`users/techs/${id}`);
-      const filtered = techList.filter((el:any) => el.id != id);
-      setTechList(filtered);
+      api.delete(`users/techs/${id}`);
+      userAutoLogin();
       toast.success('Tecnologia deletada com sucesso!', {
         autoClose: 2000,
       });
