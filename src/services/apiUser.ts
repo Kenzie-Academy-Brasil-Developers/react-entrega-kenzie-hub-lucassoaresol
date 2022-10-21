@@ -26,7 +26,7 @@ export async function postUser(data:FieldValues):Promise<ipostUser> {
     return response
 }
 
-export async function postUserCreate(data:FieldValues) {
-  const {data: response} = await api.post('users', data);
+export async function postUserCreate(data:FieldValues):Promise<ipostUser> {
+  const {data: response} = await api.post<ipostUser>('users', data);
   return response
 }

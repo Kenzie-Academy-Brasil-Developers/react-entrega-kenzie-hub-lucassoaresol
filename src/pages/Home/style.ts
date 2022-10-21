@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface iStyledContainerProps{
-  position: string
+  position?: 'header' | 'user';
 }
 
 export const StyledContainerMain = styled.div`

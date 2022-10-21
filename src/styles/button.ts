@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface iButtonProps{
-  location?: string;
+  location?: 'register' | 'delete' | 'tech' ;
 }
 
 export const StyledButton = styled.button<iButtonProps>`
