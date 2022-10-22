@@ -130,7 +130,6 @@ export const StyledModalTechMain = styled.div`
         button:last-child {
           width: 30%;
         }
-        
       }
       @media (min-width: 768px) {
         input,

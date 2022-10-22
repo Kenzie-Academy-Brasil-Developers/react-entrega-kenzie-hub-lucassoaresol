@@ -3,12 +3,12 @@ import { StyledInputPassword } from './style';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-interface iInputPasswordProps{
+interface iInputPasswordProps {
   register: UseFormRegister<FieldValues>;
   isConfirm?: boolean;
 }
 
-const InputPassword = ({ register, isConfirm }:iInputPasswordProps) => {
+const InputPassword = ({ register, isConfirm }: iInputPasswordProps) => {
   const [isView, setIsView] = useState(false);
   return (
     <>

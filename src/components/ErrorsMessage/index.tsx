@@ -1,21 +1,21 @@
 import { IoMdInformationCircle } from 'react-icons/io';
 
-interface iErrorsMessageProps{
+interface iErrorsMessageProps {
   errors: any;
   id: string;
 }
 
-const ErrorsMessage = ({errors, id}:iErrorsMessageProps) => {
+const ErrorsMessage = ({ errors, id }: iErrorsMessageProps) => {
   return (
     <>
-        {errors[id] && (
-            <p>
-              {errors[id].message}
-              <IoMdInformationCircle />
-            </p>
-          )}
+      {errors[id] && (
+        <p>
+          {errors[id].message}
+          <IoMdInformationCircle />
+        </p>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default ErrorsMessage
+export default ErrorsMessage;

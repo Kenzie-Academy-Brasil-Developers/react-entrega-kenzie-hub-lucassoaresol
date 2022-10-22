@@ -1,25 +1,34 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react';
 import { FieldValues } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
 import { postTechs, putTechs } from '../services/apiTechs';
 import { UserContext } from './UserContext';
 
-interface iTechContextProps{
+interface iTechContextProps {
   children: ReactNode;
 }
 
-interface iTechContext{
+interface iTechContext {
   tech: {
     id: string;
     status: string;
     title: string;
-};
-  setTech: Dispatch<SetStateAction<{
-    id: string;
-    status: string;
-    title: string;
-}>>;
+  };
+  setTech: Dispatch<
+    SetStateAction<{
+      id: string;
+      status: string;
+      title: string;
+    }>
+  >;
   openModal: boolean | undefined;
   setOpenModal: Dispatch<SetStateAction<boolean | undefined>>;
   typeModal: boolean | undefined;
@@ -31,12 +40,12 @@ interface iTechContext{
 
 export const TechContext = createContext({} as iTechContext);
 
-const TechProvider = ({ children }:iTechContextProps) => {
+const TechProvider = ({ children }: iTechContextProps) => {
   const [openModal, setOpenModal] = useState<boolean>();
   const [typeModal, setTypeModal] = useState<boolean>();
   const [tech, setTech] = useState({ id: '', status: '', title: '' });
   const { userAutoLogin } = useContext(UserContext);
-  const techCreate = async (data:FieldValues) => {
+  const techCreate = async (data: FieldValues) => {
     try {
       await postTechs(data);
       toast.success('Tecnologia criada com sucesso!', {
@@ -50,9 +59,9 @@ const TechProvider = ({ children }:iTechContextProps) => {
       });
     }
   };
-  const techUpDate = async (data:FieldValues, id:string) => {
+  const techUpDate = async (data: FieldValues, id: string) => {
     try {
-      await putTechs(data,id);
+      await putTechs(data, id);
       userAutoLogin();
       toast.success('Tecnologia alterada com sucesso!', {
         autoClose: 2000,
@@ -62,7 +71,7 @@ const TechProvider = ({ children }:iTechContextProps) => {
       console.error(error);
     }
   };
-  const techDelete = async (id:string) => {
+  const techDelete = async (id: string) => {
     try {
       await api.delete(`users/techs/${id}`);
       userAutoLogin();

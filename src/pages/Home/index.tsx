@@ -15,11 +15,7 @@ import { TechContext } from '../../contexts/TechContext';
 import ModalTech from './ModalTech';
 
 const Home = () => {
-  const {
-    user,
-    techList,
-    userLogout,
-  } = useContext(UserContext);
+  const { user, techList, userLogout } = useContext(UserContext);
   const { setOpenModal, setTypeModal } = useContext(TechContext);
   return (
     <StyledContainerMain>
@@ -28,9 +24,7 @@ const Home = () => {
           <Link to='/'>
             <img src={logo} alt='Kenzie Hub' />
           </Link>
-          <StyledButtonHome location='home' onClick={userLogout}>
-            Sair
-          </StyledButtonHome>
+          <StyledButtonHome onClick={userLogout}>Sair</StyledButtonHome>
         </StyledContainer>
       </header>
       <>

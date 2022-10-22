@@ -1,15 +1,21 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { getUser, igetUser, ipostUser, postUser, postUserCreate } from '../services/apiUser';
+import {
+  getUser,
+  igetUser,
+  ipostUser,
+  postUser,
+  postUserCreate,
+} from '../services/apiUser';
 import { ipostTechs } from '../services/apiTechs';
 import { FieldValues } from 'react-hook-form';
 
-interface iUserContextProps{
+interface iUserContextProps {
   children: ReactNode;
 }
 
-interface iUserContext{
+interface iUserContext {
   userAutoLogin: () => Promise<void>;
   userLogin: (data: FieldValues) => Promise<void>;
   userLogout: () => void;
@@ -22,7 +28,7 @@ interface iUserContext{
 
 export const UserContext = createContext({} as iUserContext);
 
-const UserProvider = ({ children }:iUserContextProps) => {
+const UserProvider = ({ children }: iUserContextProps) => {
   const [globalLoading, setGlobalLoading] = useState<boolean>();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<igetUser | null>(null);
@@ -35,28 +41,28 @@ const UserProvider = ({ children }:iUserContextProps) => {
 
   const userAutoLogin = async () => {
     const token = localStorage.getItem('@TokenKenzieHub');
-      if (token) {
-        try {
-          setGlobalLoading(true);
-          const user = await getUser(token);
-          setUser(user);
-          setTechList(user.techs);
-        } catch (error) {
-          console.error(error);
-          setLoading(false);
-        } finally {
-          setGlobalLoading(false);
-          setLoading(false);
-        }
-      } else {
+    if (token) {
+      try {
+        setGlobalLoading(true);
+        const user = await getUser(token);
+        setUser(user);
+        setTechList(user.techs);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      } finally {
+        setGlobalLoading(false);
         setLoading(false);
       }
+    } else {
+      setLoading(false);
+    }
   };
 
-  const userLogin = async (data:FieldValues) => {
+  const userLogin = async (data: FieldValues) => {
     try {
       setGlobalLoading(true);
-      const {token, user}:ipostUser = await postUser(data)
+      const { token, user }: ipostUser = await postUser(data);
       localStorage.setItem('@TokenKenzieHub', token);
       setUser(user);
       setTechList(user.techs);
@@ -85,10 +91,10 @@ const UserProvider = ({ children }:iUserContextProps) => {
     });
   };
 
-  const userRegister = async (data:FieldValues) => {
+  const userRegister = async (data: FieldValues) => {
     try {
       setGlobalLoading(true);
-      await postUserCreate(data)
+      await postUserCreate(data);
       toast.success('Conta criada com sucesso!', {
         autoClose: 3000,
       });

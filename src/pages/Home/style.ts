@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-interface iStyledContainerProps{
+interface iStyledContainerProps {
   position?: 'header' | 'user';
 }
 
